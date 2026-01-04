@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <style>
+      .teal-stroke { stroke: #005f6b; }
+      .orange-stroke { stroke: #d97c2e; }
+      .common-style {
+        fill: none;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+
+  <g class="common-style">
+    <path class="teal-stroke" d="M 50 8 L 68 26 L 92 26 L 74 50 L 92 74 L 68 74 L 50 92 L 32 74 L 8 74 L 26 50 L 8 26 L 32 26 Z" />
+
+    <path class="orange-stroke" d="M 50 18 L 62 30 L 82 30 L 70 50 L 82 70 L 62 70 L 50 82 L 38 70 L 18 70 L 30 50 L 18 30 L 38 30 Z" />
+
+    <path class="teal-stroke" d="M 50 28 L 58 36 L 72 36 L 64 50 L 72 64 L 58 64 L 50 72 L 42 64 L 28 64 L 36 50 L 28 36 L 42 36 Z" />
+
+    <circle class="orange-stroke" cx="50" cy="50" r="11" />
+  </g>
+</svg>
