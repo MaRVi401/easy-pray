@@ -13,3 +13,15 @@ export const getSurahDetail = async (nomor) => {
   const data = await response.json();
   return data.data;
 };
+
+// Fungsi untuk mengambil tafsir surah tertentu
+export const getSurahTafsir = async (nomor) => {
+  try {
+    const response = await fetch(`${BASE_URL}/tafsir/${nomor}`);
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Gagal mengambil Tafsir:", error);
+    return null;
+  }
+};

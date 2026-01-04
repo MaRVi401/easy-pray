@@ -12,13 +12,38 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-emerald-50">
       {/* Hero Section */}
-      <header className="bg-emerald-600 text-white pt-16 pb-24 px-6 rounded-b-[3rem] shadow-lg">
+      <header className="bg-emerald-600 text-white pt-12 pb-24 px-6 rounded-b-[3rem] shadow-lg">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-bold">EasyPray</h1>
-          <p className="mt-2 text-emerald-100 italic">"Mempermudah Ibadahmu di Mana Saja"</p>
-          <div className="mt-8 bg-white/20 backdrop-blur-md rounded-2xl p-6 text-left border border-white/30">
-            <p className="text-sm">Ahlan wa sahlan!</p>
-            <h2 className="text-xl font-semibold">Sudahkah Anda Berdoa Hari Ini?</h2>
+          {/* CONTAINER LOGO */}
+          <div className="mb-4 flex justify-center">
+            <div className="bg-white/20 backdrop-blur-sm p-3 rounded-3xl border border-white/30 shadow-xl">
+              <img
+                src="/icon/icon1.svg"
+                alt="Logo EasyPray"
+                className="w-16 h-16 md:w-20 md:h-20 drop-shadow-md"
+              />
+            </div>
+          </div>
+
+          {/* TITLE BRANDING */}
+          <h1
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            className="text-5xl md:text-6xl font-extrabold tracking-tighter italic"
+          >
+            <span className="bg-gradient-to-br from-white to-emerald-200 bg-clip-text text-transparent pr-4">
+              Easy
+            </span>
+            <span className="text-emerald-950">
+              Pray
+            </span>
+          </h1>
+
+          <p className="mt-2 text-emerald-100 italic font-medium">"Mempermudah Ibadahmu di Mana Saja"</p>
+
+          {/* WELCOME BOX */}
+          <div className="mt-8 bg-white/20 backdrop-blur-md rounded-2xl p-6 text-left border border-white/30 shadow-inner">
+            <p className="text-sm text-emerald-50">Ahlan wa sahlan!</p>
+            <h2 className="text-xl font-semibold">Sudahkah Anda Ibadah Hari Ini?</h2>
           </div>
         </div>
       </header>
@@ -27,8 +52,8 @@ export default function LandingPage() {
       <main className="max-w-4xl mx-auto -mt-12 px-6 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {menus.map((menu, index) => (
-            <Link 
-              key={index} 
+            <Link
+              key={index}
               to={menu.path}
               className="flex items-center p-5 bg-white rounded-2xl shadow-sm border border-emerald-100 hover:shadow-md transition-all active:scale-95 group"
             >
