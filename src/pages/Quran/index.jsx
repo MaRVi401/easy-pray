@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSurahList } from "../api/quran";
+import { getSurahList } from "../../api/quran";
 import { Link } from "react-router-dom";
 import { Search, ArrowLeft } from "lucide-react";
 
