@@ -1,20 +1,24 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+
+// Component dummy untuk halaman lain (bisa kamu isi nanti)
+const Quran = () => <div className="p-8 text-center">Halaman Quran (Coming Soon)</div>;
+const Jadwal = () => <div className="p-8 text-center">Halaman Jadwal Sholat (Coming Soon)</div>;
+const Hadits = () => <div className="p-8 text-center">Halaman Hadits (Coming Soon)</div>;
+const Doa = () => <div className="p-8 text-center">Halaman Doa (Coming Soon)</div>;
+
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-emerald-50">
-      <div className="text-center p-10 bg-white shadow-2xl rounded-3xl">
-        <h1 className="text-4xl font-bold text-emerald-700">EasyPray</h1>
-        <p className="mt-4 text-gray-600">Alhamdulillah, Tailwind v4 Berhasil Terpasang!</p>
-        <div className="mt-6 flex gap-4 justify-center">
-          <button className="px-6 py-2 bg-emerald-600 text-white rounded-full hover:shadow-lg transition-all">
-            Jadwal Sholat
-          </button>
-          <button className="px-6 py-2 border-2 border-emerald-600 text-emerald-600 rounded-full hover:bg-emerald-50 transition-all">
-            Baca Quran
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/quran" element={<Quran />} />
+        <Route path="/jadwal" element={<Jadwal />} />
+        <Route path="/hadits" element={<Hadits />} />
+        <Route path="/doa" element={<Doa />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
