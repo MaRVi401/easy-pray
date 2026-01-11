@@ -1,3 +1,4 @@
+// marvi401/easy-pray/easy-pray-c3d47f6621f1641f0eaf16914c742df53a7f8598/src/api/hadith.js
 const BASE_URL = "https://api.hadith.gading.dev";
 
 export const getHadithBooks = async () => {
@@ -11,22 +12,18 @@ export const getHadithBooks = async () => {
   }
 };
 
-export const getHadithList = async (id, range = "1-50") => {
+export const getHadithList = async (id, range = "1-20") => {
   try {
-    console.log(`Sedang mengambil hadits untuk: ${id}...`); // Debugging
-    const response = await fetch(`${BASE_URL}/books/${id}?range=${range}`);
+    // Pastikan ID perawi selalu huruf kecil agar API merespon
+    const cleanId = id.toLowerCase();
+    const response = await fetch(`${BASE_URL}/books/${cleanId}?range=${range}`);
     
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error("Hadits tidak ditemukan");
 
     const result = await response.json();
-    console.log("Data berhasil diterima:", result); // Debugging
-    
-    // Pastikan kita mengembalikan property 'data' sesuai struktur API Gading
     return result.data; 
   } catch (error) {
-    console.error("Fetch Error Detail:", error); // Lihat error detail di Console (F12)
+    console.error("Fetch Error:", error);
     return null;
   }
 };
