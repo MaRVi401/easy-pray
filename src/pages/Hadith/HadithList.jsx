@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getHadithList } from "../../api/hadith"; 
 import { ArrowLeft, Loader2, ChevronLeft, ChevronRight, Hash, Search, X } from "lucide-react";
@@ -12,6 +12,7 @@ export default function HadithList() {
   const [searchQuery, setSearchQuery] = useState("");
   const limit = 20;
 
+  // 1. Fetch Data dari API
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -19,6 +20,7 @@ export default function HadithList() {
       const start = (page - 1) * limit + 1;
       const end = page * limit;
       
+      // Mengambil data berdasarkan range halaman
       const result = await getHadithList(id, `${start}-${end}`);
       
       if (result && result.hadiths) {
@@ -32,13 +34,10 @@ export default function HadithList() {
     window.scrollTo(0, 0);
   }, [id, page]);
 
-  // FUNGSI HIGHLIGHT: Menandai teks yang cocok dengan warna
+  // 2. Fungsi Highlight: Menandai teks yang cocok dengan warna kuning
   const highlightText = (text, query) => {
     if (!query.trim()) return text;
-    
-    // Menggunakan regex untuk memisahkan teks berdasarkan query (case-insensitive)
     const parts = text.toString().split(new RegExp(`(${query})`, "gi"));
-    
     return parts.map((part, index) => 
       part.toLowerCase() === query.toLowerCase() ? (
         <mark key={index} className="bg-yellow-300 text-black rounded-sm px-0.5 font-bold">
@@ -50,6 +49,7 @@ export default function HadithList() {
     );
   };
 
+  // 3. Logika Filter: Mencari di nomor, arab, atau terjemahan pada halaman saat ini
   const filteredHadiths = data?.hadiths.filter((h) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -59,6 +59,7 @@ export default function HadithList() {
     );
   }) || [];
 
+  // 4. Fungsi Jump: Melompat ke nomor hadits tertentu (Tekan Enter)
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const num = parseInt(searchQuery);
@@ -68,6 +69,7 @@ export default function HadithList() {
       if (targetPage !== page) {
         setPage(targetPage);
       }
+      // Scroll halus ke hadits yang dituju setelah render
       setTimeout(() => {
         const element = document.getElementById(`hadith-${num}`);
         if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -94,6 +96,7 @@ export default function HadithList() {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
+      {/* Header Rata Tengah: Fokus pada Nama Perawi */}
       <div className="bg-emerald-600 text-white sticky top-0 z-30 shadow-lg px-3 py-3 sm:px-6 sm:py-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-4">
@@ -115,6 +118,7 @@ export default function HadithList() {
             </div> 
           </div>
 
+          {/* Search Box Terintegrasi */}
           <form onSubmit={handleSearchSubmit} className="relative group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 w-4 h-4 sm:w-5 sm:h-5" />
             <input
@@ -126,7 +130,7 @@ export default function HadithList() {
             />
             {searchQuery && (
               <button 
-                type="button"
+                type="button" 
                 onClick={() => setSearchQuery("")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-100 rounded-full text-slate-400"
               >
@@ -141,6 +145,7 @@ export default function HadithList() {
         {filteredHadiths.length === 0 ? (
           <div className="py-20 text-center text-slate-400 italic">
             <p>Tidak ditemukan hadits dengan kata kunci "{searchQuery}" di halaman ini.</p>
+            <p className="text-[10px] mt-2 font-normal">Tip: Tekan Enter untuk melompat ke nomor hadits secara global.</p>
           </div>
         ) : (
           filteredHadiths.map((h) => (
@@ -151,12 +156,10 @@ export default function HadithList() {
                 </span>
               </div>
               
-              {/* Highlight pada Teks Arab */}
               <p className="text-3xl md:text-4xl leading-[4.5rem] md:leading-[5rem] text-right font-arabic mb-10 text-slate-800" dir="rtl">
                 {highlightText(h.arab, searchQuery)}
               </p>
               
-              {/* Highlight pada Terjemahan */}
               <div className="bg-slate-50/50 p-6 rounded-3xl border-l-4 border-emerald-500">
                 <p className="text-slate-600 text-sm md:text-base leading-relaxed italic">
                   "{highlightText(h.id, searchQuery)}"
@@ -166,6 +169,7 @@ export default function HadithList() {
           ))
         )}
 
+        {/* Pagination Navigasi (Hanya muncul jika tidak sedang filter teks) */}
         {!searchQuery && (
           <div className="flex gap-4 pt-10">
             <button 
