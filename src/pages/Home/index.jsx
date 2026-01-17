@@ -2,40 +2,40 @@ import { BookOpen, BookText, Sparkles, Clock, Navigation } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const menus = [
-  { 
-    title: "Al-Qur'an", 
-    desc: "Baca dan dengarkan murottal", 
-    icon: <BookOpen className="w-7 h-7" />, 
-    path: "/quran", 
-    color: "bg-blue-500" 
+  {
+    title: "Al-Qur'an",
+    desc: "Baca dan dengarkan murottal",
+    icon: <BookOpen className="w-7 h-7" />,
+    path: "/quran",
+    color: "bg-blue-500"
   },
-  { 
-    title: "Jadwal Sholat", 
-    desc: "Waktu sholat sesuai lokasi", 
-    icon: <Clock className="w-7 h-7" />, 
-    path: "/sholat", 
-    color: "bg-emerald-500" 
+  {
+    title: "Jadwal Sholat",
+    desc: "Waktu sholat sesuai lokasi",
+    icon: <Clock className="w-7 h-7" />,
+    path: "/sholat",
+    color: "bg-emerald-500"
   },
-  { 
-    title: "Hadits", 
-    desc: "Cari ribuan hadits shahih", 
-    icon: <BookText className="w-7 h-7" />, 
-    path: "/hadits", 
-    color: "bg-amber-500" 
+  {
+    title: "Hadits",
+    desc: "Cari ribuan hadits shahih",
+    icon: <BookText className="w-7 h-7" />,
+    path: "/hadits",
+    color: "bg-amber-500"
   },
-  { 
-    title: "Doa Harian", 
-    desc: "Kumpulan doa sehari-hari", 
-    icon: <Sparkles className="w-7 h-7" />, 
-    path: "/doa", 
-    color: "bg-rose-500" 
+  {
+    title: "Doa Harian",
+    desc: "Kumpulan doa sehari-hari",
+    icon: <Sparkles className="w-7 h-7" />,
+    path: "/doa",
+    color: "bg-rose-500"
   },
-  { 
-    title: "Arah Kiblat", 
-    desc: "Cari arah ka'bah presisi", 
-    icon: <Navigation className="w-7 h-7 rotate-45" />, 
-    path: "/kiblat", 
-    color: "bg-indigo-500" 
+  {
+    title: "Arah Kiblat",
+    desc: "Cari arah ka'bah presisi",
+    icon: <Navigation className="w-7 h-7 rotate-45" />,
+    path: "/kiblat",
+    color: "bg-indigo-500"
   },
 ];
 
@@ -75,12 +75,18 @@ export default function LandingPage() {
           </p>
 
           {/* WELCOME BOX */}
-          <div className="mt-10 bg-white/10 backdrop-blur-lg rounded-[2rem] p-6 text-left border border-white/20 shadow-inner max-w-md mx-auto">
-            <div className="flex items-center gap-3 mb-1">
-              <Sparkles className="w-4 h-4 text-emerald-200" />
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-100">Ahlan wa sahlan!</p>
+          <div className="mt-10 bg-white/10 backdrop-blur-lg rounded-[2rem] p-5 text-left border border-white/20 shadow-inner max-w-sm mx-auto">
+            <div className="flex items-center gap-2 mb-1">
+              {/* Ukuran icon diperkecil dari w-4 menjadi w-3.5 */}
+              <Sparkles className="w-3.5 h-3.5 text-emerald-200" />
+              {/* Ukuran diperkecil dari text-[10px] ke text-[9px] */}
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-100">
+                Ahlan wa sahlan!
+              </p>
             </div>
-            <h2 className="text-xl md:text-2xl font-black leading-tight">Sudahkah Anda Beribadah Hari Ini?</h2>
+            <h2 className="text-base md:text-lg font-bold leading-tight">
+              Sudahkah Anda Beribadah Hari Ini?
+            </h2>
           </div>
         </div>
       </header>
@@ -106,23 +112,30 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity pr-2">
-                 <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                    <Navigation className="w-4 h-4" />
-                 </div>
+                <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                  <Navigation className="w-4 h-4" />
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
         {/* Info Card Tambahan */}
-        <div className="mt-10 p-8 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group">
-            <div className="relative z-10">
-                <h4 className="text-lg font-black uppercase tracking-widest mb-2">EasyPray v1.0</h4>
-                <p className="text-emerald-50 text-xs sm:text-sm leading-relaxed max-w-sm font-medium">
-                    Aplikasi pendamping ibadah muslim modern yang ringan, cepat, dan tanpa iklan. Nikmati kemudahan dalam satu genggaman.
-                </p>
-            </div>
-            <BookOpen className="absolute right-[-20px] bottom-[-20px] w-40 h-40 text-white/10 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+        <div className="mt-10 p-6 sm:p-10 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group">
+          <div className="relative z-10 w-full">
+            {/* Judul: Ukuran teks menyesuaikan dari mobile ke desktop */}
+            <h4 className="text-sm sm:text-base md:text-lg lg:text-xl font-black uppercase tracking-widest mb-2 sm:mb-3">
+              EasyPray v1.0
+            </h4>
+
+            {/* Deskripsi: max-w-sm dihapus agar teks memenuhi card, ukuran font dibuat fleksibel */}
+            <p className="text-emerald-50 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed font-medium w-full">
+              Aplikasi pendamping ibadah muslim modern yang ringan, cepat, dan tanpa iklan. Nikmati kemudahan untuk beribadah dalam satu genggaman.
+            </p>
+          </div>
+
+          {/* Icon Background: Ukuran icon juga dibuat sedikit lebih dinamis */}
+          <BookOpen className="absolute right-[-15px] bottom-[-15px] w-32 h-32 md:w-48 md:h-48 text-white/10 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
         </div>
       </main>
 
