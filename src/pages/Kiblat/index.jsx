@@ -94,7 +94,7 @@ export default function Kiblat() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-8 flex flex-col items-center">
                   <div className="bg-slate-900 p-2 rounded-xl shadow-xl border-2 border-emerald-400">
                     <img src="/icon/kabah-icon.png" alt="Ka'bah" className="w-8 h-8" 
-                         onError={(e) => e.target.src = "https://cdn-icons-png.flaticon.com/512/10231/10231649.png"} />
+                         onError={(e) => e.target.src = "https://cdn-icons-png.flaticon.com/128/11105/11105004.png"} />
                   </div>
                   <div className="w-1 h-16 bg-gradient-to-b from-emerald-500 to-transparent mt-1"></div>
                 </div>
