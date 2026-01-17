@@ -7,11 +7,13 @@ import HadithList from './pages/Hadith/HadithList';
 import DoaIndex from "./pages/Doa/index";
 import DoaDetail from "./pages/Doa/DoaDetail";
 import Sholat from "./pages/Sholat";
+import Kiblat from "./pages/Kiblat";
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Halaman Home */}
         <Route path="/" element={<Home />} />
 
         {/* Fitur Quran */}
@@ -28,6 +30,9 @@ function App() {
 
         {/* Fitur Jadwal Sholat */}
         <Route path="/jadwal-sholat" element={<Sholat />} />
+
+        {/* Fitur Arah Kiblat */}
+        <Route path="/kiblat" element={<Kiblat />} />
       </Routes>
     </Router>
   );
