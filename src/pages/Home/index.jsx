@@ -13,7 +13,7 @@ const menus = [
     title: "Jadwal Sholat",
     desc: "Waktu sholat sesuai lokasi",
     icon: <Clock className="w-7 h-7" />,
-    path: "/sholat",
+    path: "/jadwal-sholat",
     color: "bg-emerald-500"
   },
   {
