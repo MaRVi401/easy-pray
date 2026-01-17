@@ -1,4 +1,4 @@
-import { BookOpen, BookText, Sparkles, Clock, Navigation } from 'lucide-react';
+import { BookOpen, BookText, Sparkles, Clock, Navigation, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const menus = [
@@ -26,7 +26,7 @@ const menus = [
   {
     title: "Doa Harian",
     desc: "Kumpulan doa sehari-hari",
-    icon: <Sparkles className="w-7 h-7" />,
+    icon: <Heart className="w-7 h-7" />,
     path: "/doa",
     color: "bg-rose-500"
   },
