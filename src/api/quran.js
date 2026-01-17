@@ -1,3 +1,4 @@
+// src/api/quran.js
 const BASE_URL = "https://equran.id/api/v2";
 
 // Fungsi untuk mengambil semua daftar surah

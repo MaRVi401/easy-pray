@@ -4,6 +4,8 @@ import Quran from './pages/Quran';
 import SurahDetail from './pages/Quran/SurahDetail';
 import Hadith from './pages/Hadith';
 import HadithList from './pages/Hadith/HadithList';
+import DoaIndex from "./pages/Doa/index";
+import DoaDetail from "./pages/Doa/DoaDetail";
 
 function App() {
   return (
@@ -19,9 +21,12 @@ function App() {
         <Route path="/hadits" element={<Hadith />} />
         <Route path="/hadits/:id" element={<HadithList />} />
         
+        {/* Fitur Doa */}
+        <Route path="/doa" element={<DoaIndex />} />
+        <Route path="/doa/:id" element={<DoaDetail />} />
+
         {/* Placeholder lainnya */}
         <Route path="/jadwal" element={<div className="p-10 text-center">Fitur Jadwal Sholat Segera Hadir</div>} />
-        <Route path="/doa" element={<div className="p-10 text-center">Fitur Doa Segera Hadir</div>} />
       </Routes>
     </Router>
   );
