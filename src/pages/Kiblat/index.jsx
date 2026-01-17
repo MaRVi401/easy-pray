@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { getQiblaDirection } from "../../api/kiblat";
-import { ArrowLeft, Loader2, RefreshCw, Info, ShieldCheck, Compass, MoveUp, Map, Globe, Landmark } from "lucide-react";
+import { ArrowLeft, Loader2, RefreshCw, Info, ShieldCheck, Compass, MoveUp, Globe, Landmark } from "lucide-react";
 
 export default function Kiblat() {
   const [qiblaDir, setQiblaDir] = useState(0);
@@ -12,11 +12,10 @@ export default function Kiblat() {
   const [error, setError] = useState(null);
   const [hasPermission, setHasPermission] = useState(false);
 
-  // Fungsi hitung jarak Haversine (KM)
   const calculateDistance = (lat1, lon1) => {
-    const lat2 = 21.4225; // Latitude Ka'bah
-    const lon2 = 39.8262; // Longitude Ka'bah
-    const R = 6371; // Radius Bumi dalam KM
+    const lat2 = 21.4225;
+    const lon2 = 39.8262;
+    const R = 6371;
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
     const a = 
@@ -84,19 +83,34 @@ export default function Kiblat() {
   if (loading) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
       <Loader2 className="animate-spin text-emerald-600 w-12 h-12 mb-4" />
-      <p className="text-slate-400 font-black italic tracking-widest text-[10px] uppercase">Menghitung Jarak Ke Mekkah...</p>
+      <p className="text-slate-400 font-black italic tracking-widest text-[10px] uppercase text-center">Menyinkronkan Satelit...</p>
     </div>
   );
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans pb-20">
-      <header className="bg-emerald-600 text-white p-5 sticky top-0 z-40 shadow-lg">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link to="/" className="p-2 hover:bg-white/20 rounded-full transition-all">
-            <ArrowLeft className="w-6 h-6" />
+      {/* HEADER BARU: Identik dengan halaman lain */}
+      <header className="bg-emerald-600 text-white sticky top-0 z-40 shadow-lg px-3 py-3 sm:px-6 sm:py-5">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <Link to="/" className="p-1.5 sm:p-2 hover:bg-white/20 rounded-full transition-all active:scale-90 group">
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-1 transition-transform" />
           </Link>
-          <h1 className="text-lg md:text-2xl font-black tracking-tighter italic uppercase">Informasi <span className="text-emerald-950">Kiblat</span></h1>
-          <button onClick={fetchQiblaData} className="p-2 hover:bg-white/20 rounded-full"><RefreshCw className="w-5 h-5" /></button>
+          
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img src="/icon/icon1.svg" alt="Logo" className="w-7 h-7 sm:w-9 sm:h-9 drop-shadow-sm" />
+            <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }} className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tighter italic select-none">
+              <span className="bg-gradient-to-br from-white to-emerald-200 bg-clip-text text-transparent pr-1">Easy </span>
+              <span className="text-emerald-950">Pray</span>
+            </h1>
+          </div>
+
+          <button 
+            onClick={fetchQiblaData} 
+            className="p-1.5 sm:p-2 hover:bg-white/20 rounded-full transition-all active:rotate-180 duration-500"
+            title="Refresh Lokasi"
+          >
+            <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
         </div>
       </header>
 
@@ -104,16 +118,19 @@ export default function Kiblat() {
         {!hasPermission ? (
           <div className="flex flex-col items-center text-center mt-12 animate-in fade-in zoom-in-95 duration-700">
             <div className="w-24 h-24 bg-emerald-50 text-emerald-600 rounded-[2.5rem] flex items-center justify-center mb-8 shadow-inner border border-emerald-100">
-              <Compass size={48} className="animate-spin-slow" />
+              <Compass size={48} className="animate-pulse" />
             </div>
-            <h2 className="text-2xl font-black text-slate-800 mb-4 tracking-tight">Aktifkan Navigasi</h2>
-            <button onClick={startCompass} className="bg-emerald-600 text-white px-12 py-5 rounded-[2rem] font-black shadow-xl uppercase tracking-widest text-xs">Mulai Kompas</button>
+            <h2 className="text-2xl font-black text-slate-800 mb-4 tracking-tight uppercase italic">Navigasi <span className="text-emerald-600">Kiblat</span></h2>
+            <p className="text-slate-500 text-sm mb-10 leading-relaxed max-w-xs font-medium">
+              Akses sensor kompas diperlukan untuk menunjukkan arah Ka'bah secara presisi.
+            </p>
+            <button onClick={startCompass} className="bg-emerald-600 text-white px-12 py-5 rounded-[2rem] font-black shadow-xl uppercase tracking-widest text-xs active:scale-95 transition-all">Mulai Kompas</button>
           </div>
         ) : (
           <div className="flex flex-col items-center w-full animate-in fade-in duration-1000">
             
             {/* Status & Visualisasi Kompas */}
-            <div className={`mb-6 px-8 py-2.5 rounded-full border-2 transition-all duration-500 text-[10px] font-black uppercase tracking-[0.2em] ${isAligned ? 'bg-emerald-500 border-emerald-400 text-white' : 'bg-white border-slate-100 text-slate-300'}`}>
+            <div className={`mb-6 px-8 py-2.5 rounded-full border-2 transition-all duration-500 text-[10px] font-black uppercase tracking-[0.2em] ${isAligned ? 'bg-emerald-500 border-emerald-400 text-white shadow-lg shadow-emerald-200' : 'bg-white border-slate-100 text-slate-300'}`}>
                {isAligned ? '✨ SEJAJAR DENGAN KA\'BAH ✨' : `Putar ${Math.round(relativeTurn)}° ke Kanan`}
             </div>
 
@@ -133,8 +150,7 @@ export default function Kiblat() {
 
             {/* Grid Informasi Detail */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              {/* Card Jarak */}
-              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5">
+              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 hover:border-emerald-100 transition-colors">
                 <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shadow-inner">
                   <Landmark size={28} />
                 </div>
@@ -144,8 +160,7 @@ export default function Kiblat() {
                 </div>
               </div>
 
-              {/* Card Derajat */}
-              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5">
+              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 hover:border-emerald-100 transition-colors">
                 <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-inner">
                   <Compass size={28} />
                 </div>
@@ -155,19 +170,18 @@ export default function Kiblat() {
                 </div>
               </div>
 
-              {/* Card Koordinat */}
-              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 md:col-span-2">
+              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 md:col-span-2 hover:border-emerald-100 transition-colors">
                 <div className="w-14 h-14 bg-slate-50 text-slate-500 rounded-2xl flex items-center justify-center shadow-inner">
                   <Globe size={28} />
                 </div>
-                <div className="grid grid-cols-2 gap-8 flex-1">
+                <div className="grid grid-cols-2 gap-4 sm:gap-8 flex-1">
                   <div>
                     <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest block mb-1">Latitude</span>
-                    <p className="text-sm font-bold text-slate-600">{coords.lat.toFixed(5)}</p>
+                    <p className="text-xs sm:text-sm font-bold text-slate-600 truncate">{coords.lat.toFixed(5)}</p>
                   </div>
                   <div>
                     <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest block mb-1">Longitude</span>
-                    <p className="text-sm font-bold text-slate-600">{coords.lng.toFixed(5)}</p>
+                    <p className="text-xs sm:text-sm font-bold text-slate-600 truncate">{coords.lng.toFixed(5)}</p>
                   </div>
                 </div>
               </div>
@@ -176,12 +190,18 @@ export default function Kiblat() {
             <div className="mt-8 bg-white p-6 rounded-[2.5rem] border border-slate-100 flex items-start gap-4 w-full shadow-sm">
                <Info className="text-emerald-600 w-6 h-6 flex-shrink-0" />
                <p className="text-[11px] leading-relaxed text-slate-500 font-medium text-justify">
-                  Perhitungan jarak menggunakan formula <b>Haversine</b> (titik koordinat bumi). Sudut kiblat dihitung berdasarkan arah Utara Geografis. Pastikan tidak ada gangguan magnet di sekitar perangkat.
+                  Perhitungan menggunakan formula <b>Haversine</b>. Letakkan perangkat di bidang datar dan jauhkan dari benda logam/magnet untuk akurasi kompas yang maksimal.
                </p>
             </div>
           </div>
         )}
       </main>
+      
+      <footer className="text-center py-6 opacity-30">
+        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">
+          {/* EasyPray • Qibla Precision */}
+        </p>
+      </footer>
     </div>
   );
 }
