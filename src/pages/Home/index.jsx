@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const menus = [
   { title: "Al-Qur'an", desc: "Baca dan dengarkan murottal", icon: <BookOpen className="w-8 h-8" />, path: "/quran", color: "bg-blue-500" },
-  { title: "Jadwal Sholat", desc: "Waktu sholat berdasarkan lokasi", icon: <Clock className="w-8 h-8" />, path: "/jadwal", color: "bg-emerald-500" },
+  { title: "Jadwal Sholat", desc: "Waktu sholat berdasarkan lokasi", icon: <Clock className="w-8 h-8" />, path: "/jadwal-sholat", color: "bg-emerald-500" },
   { title: "Hadits", desc: "Cari ribuan hadits shahih", icon: <BookText className="w-8 h-8" />, path: "/hadits", color: "bg-amber-500" },
   { title: "Doa Harian", desc: "Kumpulan doa sehari-hari", icon: <Heart className="w-8 h-8" />, path: "/doa", color: "bg-rose-500" },
 ];

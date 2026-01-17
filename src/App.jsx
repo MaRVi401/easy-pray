@@ -6,6 +6,7 @@ import Hadith from './pages/Hadith';
 import HadithList from './pages/Hadith/HadithList';
 import DoaIndex from "./pages/Doa/index";
 import DoaDetail from "./pages/Doa/DoaDetail";
+import Sholat from "./pages/Sholat";
 
 function App() {
   return (
@@ -25,8 +26,8 @@ function App() {
         <Route path="/doa" element={<DoaIndex />} />
         <Route path="/doa/:id" element={<DoaDetail />} />
 
-        {/* Placeholder lainnya */}
-        <Route path="/jadwal" element={<div className="p-10 text-center">Fitur Jadwal Sholat Segera Hadir</div>} />
+        {/* Fitur Jadwal Sholat */}
+        <Route path="/jadwal-sholat" element={<Sholat />} />
       </Routes>
     </Router>
   );
