@@ -1,134 +1,123 @@
-import React, { useState, useEffect } from "react";
-import { Book, Search, ChevronRight, Hash } from "lucide-react";
-import api from "../../api/hadith";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getHadithBooks } from "../../api/hadith";
+import { ArrowLeft, BookText, Loader2, ChevronRight, Search } from "lucide-react";
 
-const Hadith = () => {
+export default function Hadith() {
   const [books, setBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("Semua");
-  
-  // 1. PERBAIKAN: Tambahkan kategori lain jika ingin muncul di menu
+  const [loading, setLoading] = useState(true);
+
+  // Daftar kategori yang akan ditampilkan di menu
   const [categories] = useState(["Semua", "Kutubus Sittah", "Lainnya"]);
 
+  // ID yang benar untuk API Gading adalah "abu-dawud" (pakai 'w')
+  const mainBooks = ["bukhari", "muslim", "abu-dawud", "tirmidzi", "nasai", "ibnu-majah"];
+
   useEffect(() => {
-    fetchBooks();
+    getHadithBooks().then((data) => {
+      setBooks(data || []);
+      setLoading(false);
+    });
   }, []);
 
-  useEffect(() => {
-    filterBooks();
-  }, [searchTerm, activeCategory, books]);
-
-  const fetchBooks = async () => {
-    try {
-      const data = await api.getHadithBooks();
-      setBooks(data);
-      setFilteredBooks(data);
-    } catch (error) {
-      console.error("Error fetching books:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filterBooks = () => {
-    let result = books;
-
-    // Filter berdasarkan Search
-    if (searchTerm) {
-      result = result.filter((b) =>
-        b.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filter berdasarkan Kategori
+  // Logika Filter yang diperbaiki
+  const filteredBooks = books.filter(b => {
+    const matchSearch = b.name.toLowerCase().includes(search.toLowerCase());
+    
     if (activeCategory === "Kutubus Sittah") {
-      // 2. PERBAIKAN: Gunakan ID "abu-dawud" (pakai 'w') agar sesuai dengan API
-      const mainBooks = ["bukhari", "muslim", "abu-dawud", "tirmidzi", "nasai", "ibnu-majah"];
-      result = result.filter((b) => mainBooks.includes(b.id));
-    } else if (activeCategory === "Lainnya") {
-      const mainBooks = ["bukhari", "muslim", "abu-dawud", "tirmidzi", "nasai", "ibnu-majah"];
-      result = result.filter((b) => !mainBooks.includes(b.id));
+      return matchSearch && mainBooks.includes(b.id);
+    }
+    
+    if (activeCategory === "Lainnya") {
+      return matchSearch && !mainBooks.includes(b.id);
     }
 
-    setFilteredBooks(result);
-  };
+    return matchSearch; // Untuk kategori "Semua"
+  });
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
-      {/* Header & Search */}
-      <div className="bg-emerald-600 pt-10 pb-20 px-4 rounded-b-[40px] shadow-lg">
+    <div className="min-h-screen bg-slate-50 pb-10">
+      {/* Header Easy Pray */}
+      <div className="bg-emerald-600 text-white sticky top-0 z-30 shadow-lg px-3 py-3 sm:px-6 sm:py-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-            <Book className="w-8 h-8" />
-            Hadist Online
-          </h1>
-          <p className="text-emerald-50 mb-8">Pelajari sabda Rasulullah SAW dari berbagai perawi</p>
-          
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <div className="flex items-center justify-between mb-4">
+            <Link to="/" className="p-1.5 sm:p-2 hover:bg-white/20 rounded-full transition-all active:scale-90 group">
+              <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-1 transition-transform" />
+            </Link>
+            
+            <div className="flex items-center gap-2 sm:gap-3">
+              <img src="/icon/icon1.svg" alt="Logo" className="w-7 h-7 sm:w-8 sm:h-8 drop-shadow-sm" />
+              <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }} className="text-lg sm:text-2xl font-extrabold tracking-tighter italic select-none">
+                <span className="bg-gradient-to-br from-white to-emerald-200 bg-clip-text text-transparent pr-2">Easy</span>
+                <span className="text-emerald-950">Pray</span>
+              </h1>
+            </div>
+            <div className="w-8 sm:w-10"></div> 
+          </div>
+
+          {/* Search Input */}
+          <div className="relative group mb-4">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 w-4 h-4 sm:w-5 sm:h-5" />
             <input
               type="text"
-              placeholder="Cari perawi (misal: Bukhari)..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 rounded-2xl border-none focus:ring-2 focus:ring-emerald-400 shadow-xl text-gray-700"
+              placeholder="Cari nama perawi (Bukhari, Muslim, dsb)..."
+              className="w-full p-2.5 sm:p-3 pl-10 sm:pl-12 rounded-xl sm:rounded-2xl text-[10px] sm:text-sm text-gray-800 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 bg-white shadow-inner transition-all placeholder:text-gray-400 font-medium"
+              onChange={(e) => setSearch(e.target.value)}
             />
+          </div>
+
+          {/* Filter Kategori Dinamis */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all ${
+                  activeCategory === cat 
+                  ? "bg-white text-emerald-700 shadow-md scale-105" 
+                  : "bg-emerald-700/50 text-emerald-100 hover:bg-emerald-500"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 -mt-10">
-        {/* 3. PERBAIKAN: Rendering Kategori secara Dinamis dari State */}
-        <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide mb-6">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 shadow-sm ${
-                activeCategory === cat
-                  ? "bg-emerald-600 text-white shadow-emerald-200 scale-105"
-                  : "bg-white text-gray-600 hover:bg-emerald-50 border border-transparent"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* List Books */}
+      <main className="max-w-4xl mx-auto p-4 md:p-6">
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+          <div className="flex flex-col items-center py-20 text-emerald-600">
+            <Loader2 className="animate-spin w-10 h-10 mb-2" />
+            <p className="italic font-medium text-slate-400">Memuat Pustaka Hadits...</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredBooks.map((book) => (
-              <a
-                key={book.id}
-                href={`/hadith/${book.id}`}
-                className="group bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex items-center justify-between"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                    <Hash className="w-6 h-6" />
+            {filteredBooks.length > 0 ? (
+              filteredBooks.map((book) => (
+                <Link key={book.id} to={`/hadits/${book.id}`} className="flex items-center justify-between p-5 bg-white rounded-2xl border border-transparent hover:border-emerald-300 hover:shadow-md transition-all group shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                      <BookText size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-800">{book.name}</h3>
+                      <p className="text-xs text-slate-500">{book.available?.toLocaleString()} Hadits</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-gray-800 group-hover:text-emerald-600 transition-colors">
-                      {book.name}
-                    </h3>
-                    <p className="text-sm text-gray-500">{book.available} Hadist</p>
-                  </div>
-                </div>
-                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
-              </a>
-            ))}
+                  <ChevronRight className="text-slate-300 group-hover:text-emerald-500" />
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-10 text-slate-400 italic">
+                Perawi tidak ditemukan...
+              </div>
+            )}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
-};
-
-export default Hadith;
+}
