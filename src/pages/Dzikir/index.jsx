@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, RotateCcw, Fingerprint, Sparkles, Vibrate, VibrateOff } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Fingerprint, Vibrate, VibrateOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function DzikirPage() {
@@ -44,104 +44,114 @@ export default function DzikirPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans flex flex-col">
-      {/* HEADER: Sudut diperhalus (tidak oval) dan ukuran lebih pas */}
-      <header className="bg-emerald-600 text-white pt-8 pb-20 px-6 rounded-b-[2rem] shadow-lg relative overflow-hidden flex-shrink-0">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="max-w-5xl mx-auto relative z-10">
+    <div className="min-h-screen bg-slate-50 font-sans flex flex-col transition-colors duration-500">
+      {/* HEADER: Ukuran padding dan rounded menyesuaikan layar */}
+      <header className="bg-emerald-600 text-white pt-8 pb-24 md:pb-32 lg:pb-40 px-6 rounded-b-[2.5rem] lg:rounded-b-[4rem] shadow-xl relative overflow-hidden flex-shrink-0">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 lg:w-64 lg:h-64 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex items-center justify-between">
-            <Link to="/" className="p-2 hover:bg-white/20 rounded-xl transition-all active:scale-90">
-              <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            {/* Back Button */}
+            <Link to="/" className="p-2 md:p-3 hover:bg-white/20 rounded-2xl transition-all active:scale-90 bg-white/10 backdrop-blur-sm border border-white/20">
+              <ArrowLeft className="w-5 h-5 md:w-7 md:h-7" />
             </Link>
             
-            <div className="flex items-center gap-2">
-              <img src="/icon/icon1.svg" alt="Logo" className="w-7 h-7 sm:w-8 sm:h-8" />
-              <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }} className="text-lg sm:text-xl font-extrabold tracking-tighter italic select-none">
+            {/* Branding: Ukuran Logo & Teks membesar di Laptop (lg) */}
+            <div className="flex items-center gap-3 md:gap-5">
+              <img 
+                src="/icon/icon1.svg" 
+                alt="Logo" 
+                className="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 drop-shadow-lg transition-all" 
+              />
+              <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }} className="text-xl md:text-3xl lg:text-4xl font-extrabold tracking-tighter italic select-none">
                 <span className="bg-gradient-to-br from-white to-emerald-200 bg-clip-text text-transparent pr-1">Easy</span>
                 <span className="text-emerald-950">Pray</span>
               </h1>
             </div>
 
+            {/* Vibrate Toggle */}
             <button 
               onClick={() => setVibrateEnabled(!vibrateEnabled)}
-              className={`p-2 rounded-xl border transition-all ${vibrateEnabled ? 'bg-white/20 border-white/30' : 'bg-rose-500/20 border-rose-400/30 text-rose-100'}`}
+              className={`p-2 md:p-3 rounded-2xl border transition-all shadow-lg ${vibrateEnabled ? 'bg-white/20 border-white/30' : 'bg-rose-500 border-rose-400 text-white'}`}
             >
-              {vibrateEnabled ? <Vibrate size={18} /> : <VibrateOff size={18} />}
+              {vibrateEnabled ? <Vibrate className="w-5 h-5 md:w-6 md:h-6" /> : <VibrateOff className="w-5 h-5 md:w-6 md:h-6" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* MAIN CONTENT: Responsif terhadap tinggi layar */}
-      <main className="flex-1 max-w-lg mx-auto -mt-12 px-4 w-full relative z-20 pb-8">
-        <div className="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden relative flex flex-col h-full min-h-[500px]">
+      {/* MAIN CONTENT: Margin negatif menyesuaikan tinggi header */}
+      <main className="flex-1 max-w-xl mx-auto -mt-16 md:-mt-24 lg:-mt-28 px-4 w-full relative z-20 pb-12">
+        <div className="bg-white rounded-[2.5rem] lg:rounded-[3.5rem] shadow-2xl border border-slate-100 overflow-hidden relative flex flex-col min-h-[550px] md:min-h-[650px] lg:min-h-[700px]">
           
           {/* Milestone Notification */}
-          <div className={`absolute top-0 left-0 right-0 p-3 bg-amber-500 text-white text-center font-bold text-xs transition-all duration-500 transform z-30 ${milestoneReached ? 'translate-y-0' : '-translate-y-full'}`}>
+          <div className={`absolute top-0 left-0 right-0 p-4 bg-amber-500 text-white text-center font-bold text-sm md:text-base transition-all duration-500 transform z-30 shadow-lg ${milestoneReached ? 'translate-y-0' : '-translate-y-full'}`}>
              Subhanallah! Mencapai {count}x ✨
           </div>
 
-          <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10">
+          <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-12">
             {/* Counter Display */}
-            <div className="text-center mb-8">
-              <span className={`text-[10px] font-black uppercase tracking-[0.4em] mb-1 block transition-colors ${milestoneReached ? 'text-amber-500' : 'text-slate-400'}`}>
+            <div className="text-center mb-10 md:mb-16">
+              <span className={`text-[10px] md:text-xs font-black uppercase tracking-[0.5em] mb-2 block transition-colors ${milestoneReached ? 'text-amber-500' : 'text-slate-400'}`}>
                 {milestoneReached ? 'Target Tercapai' : 'Total Dzikir'}
               </span>
-              <div className={`text-7xl sm:text-8xl font-black tracking-tighter tabular-nums transition-all duration-300 ${milestoneReached ? 'text-amber-500 scale-110' : 'text-slate-800'}`}>
+              <div className={`text-8xl md:text-9xl lg:text-[10rem] font-black tracking-tighter tabular-nums transition-all duration-500 leading-none ${milestoneReached ? 'text-amber-500 scale-110' : 'text-slate-800'}`}>
                 {count}
               </div>
             </div>
 
-            {/* Tombol Utama: Ukuran dinamis sesuai layar */}
+            {/* Tombol Utama: Ukuran dinamis besar di Desktop */}
             <button
               onClick={handleIncrement}
-              className={`relative w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-slate-50 border-[10px] shadow-lg flex items-center justify-center group active:scale-90 transition-all duration-100 cursor-pointer overflow-hidden ${milestoneReached ? 'border-amber-100' : 'border-white'}`}
+              className={`relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-slate-50 border-[12px] md:border-[16px] shadow-2xl flex items-center justify-center group active:scale-90 transition-all duration-100 cursor-pointer overflow-hidden ${milestoneReached ? 'border-amber-100' : 'border-white'}`}
             >
               <div className={`absolute inset-0 opacity-0 group-active:opacity-10 transition-opacity ${milestoneReached ? 'bg-amber-500' : 'bg-emerald-600'}`}></div>
               
-              <div className="flex flex-col items-center gap-3">
-                <div className={`p-5 rounded-3xl shadow-md transition-all duration-300 ${milestoneReached ? 'bg-amber-500 text-white' : 'bg-emerald-600 text-white'}`}>
-                  <Fingerprint className="w-10 h-10" />
+              <div className="flex flex-col items-center gap-4 md:gap-6">
+                <div className={`p-6 md:p-8 rounded-[2.5rem] md:rounded-[3rem] shadow-xl transition-all duration-300 ${milestoneReached ? 'bg-amber-500 text-white' : 'bg-emerald-600 text-white'}`}>
+                  <Fingerprint className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
                 </div>
-                <span className={`font-black uppercase tracking-[0.2em] text-[9px] ${milestoneReached ? 'text-amber-600' : 'text-emerald-600'}`}>Ketuk Disini</span>
+                <span className={`font-black uppercase tracking-[0.3em] text-[10px] md:text-xs transition-transform group-hover:scale-110 ${milestoneReached ? 'text-amber-600' : 'text-emerald-600'}`}>
+                  Ketuk Disini
+                </span>
               </div>
             </button>
 
             {/* Reset Button */}
             <button
               onClick={() => setShowResetModal(true)}
-              className="mt-10 flex items-center gap-2 px-6 py-3 bg-rose-50 text-rose-600 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95 border border-rose-100"
+              className="mt-12 md:mt-16 flex items-center gap-3 px-8 py-4 bg-rose-50 text-rose-600 rounded-2xl md:rounded-3xl font-black text-xs md:text-sm uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-all active:scale-95 border border-rose-100 group shadow-md"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4 md:w-5 md:h-5 group-hover:rotate-[-120deg] transition-transform" />
               Reset Hitungan
             </button>
           </div>
         </div>
       </main>
 
-      {/* MODAL RESET */}
+      {/* MODAL RESET: Responsif (Bottom Sheet di Mobile, Center Modal di Desktop) */}
       {showResetModal && (
-        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center px-4 pb-6 sm:pb-0 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white rounded-[2rem] p-6 max-w-sm w-full shadow-2xl animate-in slide-in-from-bottom-4 sm:zoom-in duration-300">
-            <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <RotateCcw size={24} />
+        <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center px-4 pb-6 md:pb-0 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white rounded-[2.5rem] p-8 md:p-10 max-w-sm md:max-w-md w-full shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-10 md:zoom-in duration-300 border border-slate-100">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-rose-50 text-rose-500 rounded-2xl md:rounded-3xl flex items-center justify-center mb-6 mx-auto shadow-inner">
+              <RotateCcw className="w-8 h-8 md:w-10 md:h-10" />
             </div>
-            <h3 className="text-lg font-black text-slate-800 text-center mb-1 uppercase tracking-tight">Reset Hitungan?</h3>
-            <p className="text-slate-500 text-center text-xs font-medium mb-6 leading-relaxed">
-              Progres dzikir Anda akan kembali ke nol.
+            <h3 className="text-xl md:text-2xl font-black text-slate-800 text-center mb-2 uppercase tracking-tight">Hapus Progres?</h3>
+            <p className="text-slate-500 text-center text-sm md:text-base font-medium mb-8 leading-relaxed">
+              Semua hitungan dzikir Anda akan kembali ke nol. Tindakan ini tidak dapat dibatalkan.
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               <button 
                 onClick={resetCount}
-                className="w-full py-3.5 bg-rose-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
+                className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black text-xs md:text-sm uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-rose-200"
               >
-                Ya, Reset
+                Ya, Reset Sekarang
               </button>
               <button 
                 onClick={() => setShowResetModal(false)}
-                className="w-full py-3.5 bg-slate-100 text-slate-500 rounded-xl font-black text-[10px] uppercase tracking-widest active:scale-95 transition-all"
+                className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs md:text-sm uppercase tracking-widest active:scale-95 transition-all"
               >
-                Batal
+                Batalkan
               </button>
             </div>
           </div>
