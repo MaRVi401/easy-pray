@@ -8,6 +8,7 @@ import DoaIndex from "./pages/Doa/index";
 import DoaDetail from "./pages/Doa/DoaDetail";
 import Sholat from "./pages/Sholat";
 import Kiblat from "./pages/Kiblat";
+import DzikirPage from './pages/Dzikir';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
 
         {/* Fitur Arah Kiblat */}
         <Route path="/kiblat" element={<Kiblat />} />
+
+        {/* Fitur Dzikir */}
+        <Route path="/dzikir" element={<DzikirPage />} />
       </Routes>
     </Router>
   );

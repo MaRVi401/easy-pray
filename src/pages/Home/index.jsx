@@ -1,55 +1,16 @@
-import { BookOpen, BookText, Sparkles, Clock, Navigation, Heart } from 'lucide-react';
+import { Sparkles, Navigation, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-const menus = [
-  {
-    title: "Al-Qur'an",
-    desc: "Baca dan dengarkan murottal",
-    icon: <BookOpen className="w-7 h-7" />,
-    path: "/quran",
-    color: "bg-blue-500"
-  },
-  {
-    title: "Jadwal Sholat",
-    desc: "Waktu sholat sesuai lokasi",
-    icon: <Clock className="w-7 h-7" />,
-    path: "/jadwal-sholat",
-    color: "bg-emerald-500"
-  },
-  {
-    title: "Hadits",
-    desc: "Cari ribuan hadits shahih",
-    icon: <BookText className="w-7 h-7" />,
-    path: "/hadits",
-    color: "bg-amber-500"
-  },
-  {
-    title: "Doa Harian",
-    desc: "Kumpulan doa sehari-hari",
-    icon: <Heart className="w-7 h-7" />,
-    path: "/doa",
-    color: "bg-rose-500"
-  },
-  {
-    title: "Arah Kiblat",
-    desc: "Cari arah ka'bah presisi",
-    icon: <Navigation className="w-7 h-7 rotate-45" />,
-    path: "/kiblat",
-    color: "bg-indigo-500"
-  },
-];
+import { menus } from '../../components/menu';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* Hero Section */}
       <header className="bg-emerald-600 text-white pt-12 pb-28 px-6 rounded-b-[3.5rem] shadow-xl relative overflow-hidden">
-        {/* Dekorasi Background */}
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-32 h-32 bg-emerald-400/20 rounded-full blur-2xl"></div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* CONTAINER LOGO */}
           <div className="mb-6 flex justify-center">
             <div className="bg-white/20 backdrop-blur-md p-4 rounded-[2rem] border border-white/30 shadow-2xl transition-transform hover:scale-110 duration-500">
               <img
@@ -60,26 +21,20 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* TITLE BRANDING */}
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter italic leading-none">
             <span className="bg-gradient-to-br from-white to-emerald-200 bg-clip-text text-transparent pr-2">
               Easy
             </span>
-            <span className="text-emerald-950">
-              Pray
-            </span>
+            <span className="text-emerald-950">Pray</span>
           </h1>
 
           <p className="mt-4 text-emerald-50 italic font-bold tracking-widest text-xs md:text-sm uppercase opacity-80">
             "Mempermudah Ibadahmu di Mana Saja"
           </p>
 
-          {/* WELCOME BOX */}
           <div className="mt-10 bg-white/10 backdrop-blur-lg rounded-[2rem] p-5 text-left border border-white/20 shadow-inner max-w-sm mx-auto">
             <div className="flex items-center gap-2 mb-1">
-              {/* Ukuran icon diperkecil dari w-4 menjadi w-3.5 */}
               <Sparkles className="w-3.5 h-3.5 text-emerald-200" />
-              {/* Ukuran diperkecil dari text-[10px] ke text-[9px] */}
               <p className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-100">
                 Ahlan wa sahlan!
               </p>
@@ -123,18 +78,13 @@ export default function LandingPage() {
         {/* Info Card Tambahan */}
         <div className="mt-10 p-6 sm:p-10 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group">
           <div className="relative z-10 w-full">
-            {/* Judul: Ukuran teks menyesuaikan dari mobile ke desktop */}
             <h4 className="text-sm sm:text-base md:text-lg lg:text-xl font-black uppercase tracking-widest mb-2 sm:mb-3">
               EasyPray v1.0
             </h4>
-
-            {/* Deskripsi: max-w-sm dihapus agar teks memenuhi card, ukuran font dibuat fleksibel */}
-            <p className="text-emerald-50 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed font-medium w-full">
+            <p className="text-emerald-50 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed font-medium w-full text-justify">
               Aplikasi pendamping ibadah muslim modern yang ringan, cepat, dan tanpa iklan. Nikmati kemudahan untuk beribadah dalam satu genggaman.
             </p>
           </div>
-
-          {/* Icon Background: Ukuran icon juga dibuat sedikit lebih dinamis */}
           <BookOpen className="absolute right-[-15px] bottom-[-15px] w-32 h-32 md:w-48 md:h-48 text-white/10 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
         </div>
       </main>
