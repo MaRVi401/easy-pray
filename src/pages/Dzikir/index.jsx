@@ -16,25 +16,37 @@ export default function DzikirPage() {
   const [showResetModal, setShowResetModal] = useState(false);
   const [milestoneReached, setMilestoneReached] = useState(false);
 
+  // Simpan data ke localStorage
   useEffect(() => {
     localStorage.setItem('easy-pray-dzikir-count', count);
-    if (count > 0 && count % 33 === 0) {
-      setMilestoneReached(true);
-      if (vibrateEnabled && navigator.vibrate) {
-        navigator.vibrate([200, 100, 200]);
-      }
-      setTimeout(() => setMilestoneReached(false), 2000);
-    }
-  }, [count, vibrateEnabled]);
+  }, [count]);
 
   useEffect(() => {
     localStorage.setItem('easy-pray-vibrate', JSON.stringify(vibrateEnabled));
   }, [vibrateEnabled]);
 
+  // FUNGSI UTAMA: Tambah hitungan & Getar
   const handleIncrement = () => {
-    setCount(prev => prev + 1);
+    const nextCount = count + 1;
+    setCount(nextCount);
+
+    // Jalankan getar hanya jika fitur diaktifkan dan browser mendukung
     if (vibrateEnabled && navigator.vibrate) {
-      navigator.vibrate(50);
+      if (nextCount > 0 && nextCount % 33 === 0) {
+        // Pola getar khusus untuk kelipatan 33
+        navigator.vibrate([200, 100, 200]);
+        
+        // Trigger visual milestone
+        setMilestoneReached(true);
+        setTimeout(() => setMilestoneReached(false), 2000);
+      } else {
+        // Getar standar (60ms) setiap kali klik
+        navigator.vibrate(60);
+      }
+    } else if (nextCount % 33 === 0) {
+      // Jika getar mati, tetap munculkan visual milestone
+      setMilestoneReached(true);
+      setTimeout(() => setMilestoneReached(false), 2000);
     }
   };
 
@@ -45,18 +57,16 @@ export default function DzikirPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans flex flex-col transition-colors duration-500">
-      {/* HEADER: Ukuran padding dan rounded menyesuaikan layar */}
+      {/* HEADER */}
       <header className="bg-emerald-600 text-white pt-8 pb-24 md:pb-32 lg:pb-40 px-6 rounded-b-[2.5rem] lg:rounded-b-[4rem] shadow-xl relative overflow-hidden flex-shrink-0">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 lg:w-64 lg:h-64 bg-white/10 rounded-full blur-3xl"></div>
         
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex items-center justify-between">
-            {/* Back Button */}
             <Link to="/" className="p-2 md:p-3 hover:bg-white/20 rounded-2xl transition-all active:scale-90 bg-white/10 backdrop-blur-sm border border-white/20">
               <ArrowLeft className="w-5 h-5 md:w-7 md:h-7" />
             </Link>
             
-            {/* Branding: Ukuran Logo & Teks membesar di Laptop (lg) */}
             <div className="flex items-center gap-3 md:gap-5">
               <img 
                 src="/icon/icon1.svg" 
@@ -69,7 +79,6 @@ export default function DzikirPage() {
               </h1>
             </div>
 
-            {/* Vibrate Toggle */}
             <button 
               onClick={() => setVibrateEnabled(!vibrateEnabled)}
               className={`p-2 md:p-3 rounded-2xl border transition-all shadow-lg ${vibrateEnabled ? 'bg-white/20 border-white/30' : 'bg-rose-500 border-rose-400 text-white'}`}
@@ -80,17 +89,15 @@ export default function DzikirPage() {
         </div>
       </header>
 
-      {/* MAIN CONTENT: Margin negatif menyesuaikan tinggi header */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 max-w-xl mx-auto -mt-16 md:-mt-24 lg:-mt-28 px-4 w-full relative z-20 pb-12">
         <div className="bg-white rounded-[2.5rem] lg:rounded-[3.5rem] shadow-2xl border border-slate-100 overflow-hidden relative flex flex-col min-h-[550px] md:min-h-[650px] lg:min-h-[700px]">
           
-          {/* Milestone Notification */}
           <div className={`absolute top-0 left-0 right-0 p-4 bg-amber-500 text-white text-center font-bold text-sm md:text-base transition-all duration-500 transform z-30 shadow-lg ${milestoneReached ? 'translate-y-0' : '-translate-y-full'}`}>
              Subhanallah! Mencapai {count}x ✨
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-12">
-            {/* Counter Display */}
             <div className="text-center mb-10 md:mb-16">
               <span className={`text-[10px] md:text-xs font-black uppercase tracking-[0.5em] mb-2 block transition-colors ${milestoneReached ? 'text-amber-500' : 'text-slate-400'}`}>
                 {milestoneReached ? 'Target Tercapai' : 'Total Dzikir'}
@@ -100,7 +107,6 @@ export default function DzikirPage() {
               </div>
             </div>
 
-            {/* Tombol Utama: Ukuran dinamis besar di Desktop */}
             <button
               onClick={handleIncrement}
               className={`relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-slate-50 border-[12px] md:border-[16px] shadow-2xl flex items-center justify-center group active:scale-90 transition-all duration-100 cursor-pointer overflow-hidden ${milestoneReached ? 'border-amber-100' : 'border-white'}`}
@@ -117,7 +123,6 @@ export default function DzikirPage() {
               </div>
             </button>
 
-            {/* Reset Button */}
             <button
               onClick={() => setShowResetModal(true)}
               className="mt-12 md:mt-16 flex items-center gap-3 px-8 py-4 bg-rose-50 text-rose-600 rounded-2xl md:rounded-3xl font-black text-xs md:text-sm uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-all active:scale-95 border border-rose-100 group shadow-md"
@@ -129,21 +134,21 @@ export default function DzikirPage() {
         </div>
       </main>
 
-      {/* MODAL RESET: Responsif (Bottom Sheet di Mobile, Center Modal di Desktop) */}
+      {/* MODAL RESET */}
       {showResetModal && (
         <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center px-4 pb-6 md:pb-0 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white rounded-[2.5rem] p-8 md:p-10 max-w-sm md:max-w-md w-full shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-10 md:zoom-in duration-300 border border-slate-100">
+          <div className="bg-white rounded-[2.5rem] p-8 md:p-10 max-w-sm md:max-w-md w-full shadow-2xl animate-in slide-in-from-bottom-10 md:zoom-in duration-300 border border-slate-100">
             <div className="w-16 h-16 md:w-20 md:h-20 bg-rose-50 text-rose-500 rounded-2xl md:rounded-3xl flex items-center justify-center mb-6 mx-auto shadow-inner">
               <RotateCcw className="w-8 h-8 md:w-10 md:h-10" />
             </div>
             <h3 className="text-xl md:text-2xl font-black text-slate-800 text-center mb-2 uppercase tracking-tight">Hapus Progres?</h3>
             <p className="text-slate-500 text-center text-sm md:text-base font-medium mb-8 leading-relaxed">
-              Semua hitungan dzikir Anda akan kembali ke nol. Tindakan ini tidak dapat dibatalkan.
+              Semua hitungan dzikir Anda akan kembali ke nol.
             </p>
             <div className="flex flex-col gap-3">
               <button 
                 onClick={resetCount}
-                className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black text-xs md:text-sm uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-rose-200"
+                className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black text-xs md:text-sm uppercase tracking-widest shadow-lg shadow-rose-200 active:scale-95 transition-all"
               >
                 Ya, Reset Sekarang
               </button>
